@@ -34,11 +34,11 @@
 ## Setup Steps:
 
 #### Step 1:
-- Fork this GitHub repo: https://github.com/Ylazerson/chitchat
+- Fork this GitHub repo: https://github.com/barucharky/chitchat
 - Clone it down to your local machine.
 
 #### Step 2:
-- Do search (from top dir in repo) for `Ylazerson` and change to your GitHub account name.
+- Do search (from top dir in repo) for `barucharky` and change to your GitHub account name.
 
 #### Step 3:
 - Run `go test`
