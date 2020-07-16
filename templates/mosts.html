@@ -1,0 +1,14 @@
+{{ define "content" }}
+<p class="lead">
+  <a href="/thread/new">Start a thread</a> or join one below!
+</p>
+
+{{ range . }}
+  <div class="panel panel-default">
+    <div class="panel-body">
+      Username {{ .UserName }} - Number of Posts{{ .Numposts }}
+    </div>
+  </div>
+{{ end }}
+
+{{ end }}

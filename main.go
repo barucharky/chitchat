@@ -55,6 +55,9 @@ func main() {
 	mux.HandleFunc("/thread/post", postThread)
 	mux.HandleFunc("/thread/read", readThread)
 
+	// defined in route_most.go
+	mux.HandleFunc("/most", most)
+
 	// starting up the server
 	server := &http.Server{
 		Addr:           ":" + port,
