@@ -22,7 +22,7 @@ func Mosts() (mosts []Most, err error) {
 	}
 	for rows.Next() {
 		conv := Most{}
-		if err = rows.Scan(&conv.Username, &conv.Numposts); err != nil {
+		if err = rows.Scan(&conv.UserName, &conv.NumPosts); err != nil {
 			return
 		}
 		mosts = append(mosts, conv)
