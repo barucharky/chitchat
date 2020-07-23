@@ -1,8 +1,8 @@
 package data
 
 type Most struct {
-	Username string
-	Numposts int
+	UserName string
+	NumPosts int
 }
 
 // Get all users in the database and returns it

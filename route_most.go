@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/barucharky/chitchat/data"
@@ -9,7 +8,6 @@ import (
 
 func most(writer http.ResponseWriter, request *http.Request) {
 	mosts, err := data.Mosts()
-	fmt.Println("Here are the mosts", mosts)
 	if err != nil {
 		error_message(writer, request, "Cannot get mosts")
 	} else {
