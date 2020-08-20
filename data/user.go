@@ -23,14 +23,42 @@ type Session struct {
 
 // Create a new session for an existing user
 func (user *User) CreateSession() (session Session, err error) {
-	statement := "insert into sessions (uuid, email, user_id, created_at) values ($1, $2, $3, $4) returning id, uuid, email, user_id, created_at"
+	statement := `insert    into sessions 
+                            (
+                            uuid, 
+                            email, 
+                            user_id, 
+                            created_at
+                            ) 
+				  values    ($1, $2, $3, $4) 
+				  returning id, 
+				            uuid, 
+				            email, 
+				            user_id, 
+							created_at`
+
 	stmt, err := Db.Prepare(statement)
+
 	if err != nil {
 		return
 	}
+
 	defer stmt.Close()
+
 	// use QueryRow to return a row and scan the returned id into the Session struct
-	err = stmt.QueryRow(createUUID(), user.Email, user.Id, time.Now()).Scan(&session.Id, &session.Uuid, &session.Email, &session.UserId, &session.CreatedAt)
+	err = stmt.QueryRow(
+		createUUID(),
+		user.Email,
+		user.Id,
+		time.Now(),
+	).Scan(
+		&session.Id,
+		&session.Uuid,
+		&session.Email,
+		&session.UserId,
+		&session.CreatedAt,
+	)
+
 	return
 }
 
@@ -187,7 +215,14 @@ func UserByEmail(email string) (user User, err error) {
 			 where    email = $1`
 
 	err = Db.QueryRow(stmt, email).
-		Scan(&user.Id, &user.Uuid, &user.Name, &user.Email, &user.Password, &user.CreatedAt)
+		Scan(
+			&user.Id,
+			&user.Uuid,
+			&user.Name,
+			&user.Email,
+			&user.Password,
+			&user.CreatedAt,
+		)
 	return
 }
 
