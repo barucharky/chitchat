@@ -176,7 +176,17 @@ func Users() (users []User, err error) {
 // Get a single user given the email
 func UserByEmail(email string) (user User, err error) {
 	user = User{}
-	err = Db.QueryRow("SELECT id, uuid, name, email, password, created_at FROM users WHERE email = $1", email).
+
+	stmt := `select   id, 
+					  uuid, 
+					  name, 
+					  email, 
+					  password, 
+					  created_at 
+			 from     users 
+			 where    email = $1`
+
+	err = Db.QueryRow(stmt, email).
 		Scan(&user.Id, &user.Uuid, &user.Name, &user.Email, &user.Password, &user.CreatedAt)
 	return
 }
