@@ -77,7 +77,22 @@ func (user *User) CreateThread(topic string) (conv Thread, err error) {
 
 // Create a new post to a thread
 func (user *User) CreatePost(conv Thread, body string) (post Post, err error) {
-	statement := "insert into posts (uuid, body, user_id, thread_id, created_at) values ($1, $2, $3, $4, $5) returning id, uuid, body, user_id, thread_id, created_at"
+	statement := `insert    into posts 
+	                        (
+						    uuid, 
+						    body, 
+						    user_id, 
+						    thread_id, 
+						    created_at
+						    ) 
+				  values    ($1, $2, $3, $4, $5) 
+				  returning id, 
+							uuid, 
+							body, 
+							user_id, 
+							thread_id, 
+							created_at`
+
 	stmt, err := Db.Prepare(statement)
 	if err != nil {
 		return
@@ -90,10 +105,20 @@ func (user *User) CreatePost(conv Thread, body string) (post Post, err error) {
 
 // Get all threads in the database and returns it
 func Threads() (threads []Thread, err error) {
-	rows, err := Db.Query("SELECT id, uuid, topic, user_id, created_at FROM threads ORDER BY created_at DESC")
+	stmt := `select   id, 
+					  uuid, 
+					  topic, 
+					  user_id, 
+					  created_at 
+			 from     threads 
+			 order by created_at desc`
+
+	rows, err := Db.Query(stmt)
+
 	if err != nil {
 		return
 	}
+
 	for rows.Next() {
 		conv := Thread{}
 		if err = rows.Scan(&conv.Id, &conv.Uuid, &conv.Topic, &conv.UserId, &conv.CreatedAt); err != nil {
