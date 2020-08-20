@@ -109,17 +109,17 @@ func (user *User) Create() (err error) {
 
 	// use QueryRow to return a row and scan the returned id into the User struct
 	err = stmt.QueryRow(
-		createUUID(), 
-		user.Name, 
-		user.Email, 
-		Encrypt(user.Password), 
-		time.Now()
-		).Scan(
-			&user.Id, 
-			&user.Uuid, 
-			&user.CreatedAt
-		)
-		
+		createUUID(),
+		user.Name,
+		user.Email,
+		Encrypt(user.Password),
+		time.Now(),
+	).Scan(
+		&user.Id,
+		&user.Uuid,
+		&user.CreatedAt,
+	)
+
 	return
 }
 
