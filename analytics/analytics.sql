@@ -53,3 +53,17 @@ ORDER BY most desc
 limit 1
 ;
 
+
+
+SELECT schemaname,
+       relname table_name 
+FROM   pg_stat_user_tables 
+WHERE schemaname = 'public'
+;
+
+
+SELECT *
+FROM information_schema.columns
+where table_schema = 'public'
+  and table_name = 'users'
+;

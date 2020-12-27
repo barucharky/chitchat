@@ -39,3 +39,11 @@ create table posts (
   thread_id  integer references threads(id),
   created_at timestamp not null  
 );
+
+create table newsletters (
+  id         serial primary key,
+  uuid       varchar(64) not null unique,
+  name       varchar(200) not null unique,
+  enabled    boolean default true,
+  created_at timestamp not null
+);
