@@ -57,7 +57,7 @@ pph as
 (
 select   just_date,
          just_hour,
-         count(*)
+         count(*) posts
 from     date_hour
 group by just_date, just_hour
 order by 1, 2
@@ -136,10 +136,12 @@ from     cal_date
 order by 1, 2
 )
 
-select   *
+select   cal.the_date,
+         cal.the_hour,
+         pph.posts
 from     calendar cal
     left join pph
-      on cal.the_date = pph.just_date
+      on cal.the_date = pph.just_date and cal.the_hour = pph.just_hour
 
 ;
 
