@@ -8,49 +8,50 @@ order by created_at
 -- getting threads by hour
 
 with
-string as
+threads_date_string as
 (
 select   created_at::text created_string
 from     threads
 order by created_at
 ),
 
-date_hour as
+threads_datetime as
 (
 select   created_string,
          -- -----------
          substr(created_string, 0, 11) just_date,
          substr(created_string, 12, 2) just_hour
 
-from     string
-)
+from     threads_date_string
+),
 
+tph as
+(
 select   just_date,
          just_hour,
-         count(*)
-from     date_hour
+         count(*) threads
+from     threads_datetime
 group by just_date, just_hour
 order by 1, 2
-;
+),
 
 -- --------------------
 -- getting posts by hour
-with
-string as
+posts_date_string as
 (
 select   created_at::text created_string
 from     posts
 order by created_at
 ),
 
-date_hour as
+posts_datetime as
 (
 select   created_string,
          -- -----------
          substr(created_string, 0, 11) just_date,
          substr(created_string, 12, 2) just_hour
 
-from     string
+from     posts_date_string
 ),
 
 pph as
@@ -58,7 +59,7 @@ pph as
 select   just_date,
          just_hour,
          count(*) posts
-from     date_hour
+from     posts_datetime
 group by just_date, just_hour
 order by 1, 2
 ),
@@ -138,10 +139,14 @@ order by 1, 2
 
 select   cal.the_date,
          cal.the_hour,
-         pph.posts
+         pph.posts,
+         tph.threads
+-- -------------------
 from     calendar cal
     left join pph
       on cal.the_date = pph.just_date and cal.the_hour = pph.just_hour
+    left join tph
+      on cal.the_date = tph.just_date and cal.the_hour = tph.just_hour
 
 ;
 
